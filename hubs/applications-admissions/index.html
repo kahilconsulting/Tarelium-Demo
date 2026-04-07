@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Applications &amp; Admissions Hub — Evantix</title>
+  <link rel="stylesheet" href="../../assets/css/shared.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <div id="breadcrumb"></div>
+
+  <main class="page-main">
+    <div class="hub-hero" id="hubHero"></div>
+    <div class="section-label">Select a Persona to begin the walkthrough</div>
+    <div class="persona-grid" id="personaGrid"></div>
+  </main>
+
+  <script src="../../assets/js/shared.js"></script>
+  <script>
+    const HUB = {
+      name: "Applications & Admissions Hub",
+      slug: "applications-admissions",
+      color: "#5A7815",
+      pastel: "#C8E095",
+      desc: "Review applications, manage offers, and track admissions decisions end-to-end.",
+      comingSoon: false,
+      personas: [
+        {
+          name: "Prospective Student",
+          slug: "prospective-student",
+          desc: "Explore course offerings, submit applications, and track your admissions journey from first enquiry to offer.",
+          tbd: true,
+          icon: `<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>`
+        },
+        {
+          name: "Admissions Officer",
+          slug: "admissions-officer",
+          desc: "Process incoming applications, communicate decisions, and manage the end-to-end admissions workflow.",
+          tbd: true,
+          icon: `<svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`
+        },
+        {
+          name: "Department Coordinator",
+          slug: "department-coordinator",
+          desc: "Coordinate departmental input on applications, manage interview schedules, and provide academic recommendations.",
+          tbd: true,
+          icon: `<svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3"/><path d="M5 10v11M19 10v11M9 10v11M15 10v11"/></svg>`
+        }
+      ]
+    };
+
+    document.documentElement.style.setProperty('--hub-color', HUB.color);
+    renderHeader({ backHref: '../../index.html', backLabel: 'App Hub' });
+    renderBreadcrumb([
+      { label: 'App Hub', href: '../../index.html' },
+      { label: HUB.name }
+    ]);
+
+    document.getElementById('hubHero').style.setProperty('--hub-color', HUB.color);
+    document.getElementById('hubHero').innerHTML = `
+      <div class="hub-hero-badge">${esc(HUB.name)}</div>
+      <h2>${esc(HUB.name)}</h2>
+      <p>${esc(HUB.desc)}</p>`;
+
+    const grid = document.getElementById('personaGrid');
+    HUB.personas.forEach(p => {
+      const card = document.createElement('a');
+      card.className = 'persona-card';
+      card.href = `${p.slug}/`;
+      card.style.setProperty('--hub-color', HUB.color);
+      card.style.setProperty('--pastel-bg', hexToRgba(HUB.pastel, 0.45));
+      card.innerHTML = `
+        <div class="persona-band">${p.icon}</div>
+        <div class="persona-body">
+          <div class="persona-name">${esc(p.name)}</div>
+          <div class="persona-desc">${esc(p.desc)}</div>
+          <div class="persona-footer">
+            ${p.tbd ? '<span class="tbd-badge">TBD</span>' : '<span></span>'}
+            <div class="persona-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Events Hub — Evantix</title>
+  <link rel="stylesheet" href="../../assets/css/shared.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <div id="breadcrumb"></div>
+
+  <main class="page-main">
+    <div class="hub-hero" id="hubHero"></div>
+    <div class="section-label">Select a Persona to begin the walkthrough</div>
+    <div class="persona-grid" id="personaGrid"></div>
+  </main>
+
+  <script src="../../assets/js/shared.js"></script>
+  <script>
+    const HUB = {
+      name: "Events Hub",
+      slug: "events",
+      color: "#B05520",
+      pastel: "#F8C8A0",
+      desc: "Plan, promote, and manage open days, campus tours, and recruitment events end-to-end.",
+      comingSoon: true,
+      personas: [
+        {
+          name: "Student",
+          slug: "student",
+          desc: "Browse and register for campus events, open days, and recruitment activities relevant to your interests.",
+          tbd: true,
+          icon: `<svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3.33 2 8.67 2 12 0v-5"/></svg>`
+        },
+        {
+          name: "Event Coordinator",
+          slug: "event-coordinator",
+          desc: "Plan, promote, and manage recruitment events; track registrations and capture post-event engagement outcomes.",
+          tbd: true,
+          icon: `<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01"/></svg>`
+        }
+      ]
+    };
+
+    document.documentElement.style.setProperty('--hub-color', HUB.color);
+    renderHeader({ backHref: '../../index.html', backLabel: 'App Hub' });
+    renderBreadcrumb([
+      { label: 'App Hub', href: '../../index.html' },
+      { label: HUB.name }
+    ]);
+
+    document.getElementById('hubHero').style.setProperty('--hub-color', HUB.color);
+    document.getElementById('hubHero').innerHTML = `
+      <div class="hub-hero-badge">${esc(HUB.name)}</div>
+      <div class="coming-soon-notice">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Content coming soon — reach out to learn more
+      </div>
+      <h2>${esc(HUB.name)}</h2>
+      <p>${esc(HUB.desc)}</p>`;
+
+    const grid = document.getElementById('personaGrid');
+    HUB.personas.forEach(p => {
+      const card = document.createElement('a');
+      card.className = 'persona-card';
+      card.href = `${p.slug}/`;
+      card.style.setProperty('--hub-color', HUB.color);
+      card.style.setProperty('--pastel-bg', hexToRgba(HUB.pastel, 0.45));
+      card.innerHTML = `
+        <div class="persona-band">${p.icon}</div>
+        <div class="persona-body">
+          <div class="persona-name">${esc(p.name)}</div>
+          <div class="persona-desc">${esc(p.desc)}</div>
+          <div class="persona-footer">
+            <span class="tbd-badge">TBD</span>
+            <div class="persona-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>

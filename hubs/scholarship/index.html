@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scholarship Hub — Evantix</title>
+  <link rel="stylesheet" href="../../assets/css/shared.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <div id="breadcrumb"></div>
+
+  <main class="page-main">
+    <div class="hub-hero" id="hubHero"></div>
+    <div class="section-label">Select a Persona to begin the walkthrough</div>
+    <div class="persona-grid" id="personaGrid"></div>
+  </main>
+
+  <script src="../../assets/js/shared.js"></script>
+  <script>
+    const HUB = {
+      name: "Scholarship Hub",
+      slug: "scholarship",
+      color: "#1A6644",
+      pastel: "#AADDC5",
+      desc: "Administer scholarship applications, assessments, and award management end-to-end.",
+      comingSoon: false,
+      personas: [
+        {
+          name: "Student",
+          slug: "student",
+          desc: "Apply for scholarships, track your application status, and manage award details through the student portal.",
+          tbd: false,
+          icon: `<svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3.33 2 8.67 2 12 0v-5"/></svg>`
+        },
+        {
+          name: "Application Reviewer",
+          slug: "application-reviewer",
+          desc: "Review and assess submitted scholarship applications, manage scoring, and coordinate committee decisions.",
+          tbd: true,
+          icon: `<svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><polyline points="9 12 11 14 15 10"/></svg>`
+        },
+        {
+          name: "External Reviewer",
+          slug: "external-reviewer",
+          desc: "Provide independent assessment of shortlisted scholarship applications as an external subject-matter expert.",
+          tbd: true,
+          icon: `<svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`
+        }
+      ]
+    };
+
+    document.documentElement.style.setProperty('--hub-color', HUB.color);
+
+    renderHeader({ backHref: '../../index.html', backLabel: 'App Hub' });
+    renderBreadcrumb([
+      { label: 'App Hub', href: '../../index.html' },
+      { label: HUB.name }
+    ]);
+
+    document.getElementById('hubHero').style.setProperty('--hub-color', HUB.color);
+    document.getElementById('hubHero').innerHTML = `
+      <div class="hub-hero-badge">${esc(HUB.name)}</div>
+      <h2>${esc(HUB.name)}</h2>
+      <p>${esc(HUB.desc)}</p>`;
+
+    const grid = document.getElementById('personaGrid');
+    HUB.personas.forEach(p => {
+      const card = document.createElement('a');
+      card.className = 'persona-card';
+      card.href = `${p.slug}/`;
+      card.style.setProperty('--hub-color', HUB.color);
+      card.style.setProperty('--pastel-bg', hexToRgba(HUB.pastel, 0.45));
+      card.innerHTML = `
+        <div class="persona-band">${p.icon}</div>
+        <div class="persona-body">
+          <div class="persona-name">${esc(p.name)}</div>
+          <div class="persona-desc">${esc(p.desc)}</div>
+          <div class="persona-footer">
+            ${p.tbd ? '<span class="tbd-badge">TBD</span>' : '<span></span>'}
+            <div class="persona-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>

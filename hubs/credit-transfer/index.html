@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Credit Transfer (RPL) Hub — Evantix</title>
+  <link rel="stylesheet" href="../../assets/css/shared.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <div id="breadcrumb"></div>
+
+  <main class="page-main">
+    <div class="hub-hero" id="hubHero"></div>
+    <div class="section-label">Select a Persona to begin the walkthrough</div>
+    <div class="persona-grid" id="personaGrid"></div>
+  </main>
+
+  <script src="../../assets/js/shared.js"></script>
+  <script>
+    const HUB = {
+      name: "Credit Transfer (RPL) Hub",
+      slug: "credit-transfer",
+      color: "#1F7F7D",
+      pastel: "#B0E0DF",
+      desc: "Process credit recognition and advanced standing requests for incoming students.",
+      comingSoon: false,
+      personas: [
+        {
+          name: "Student",
+          slug: "student",
+          desc: "Submit credit transfer or RPL requests, upload prior learning evidence, and track assessment outcomes.",
+          tbd: true,
+          icon: `<svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3.33 2 8.67 2 12 0v-5"/></svg>`
+        },
+        {
+          name: "RPL Assessor",
+          slug: "rpl-assessor",
+          desc: "Evaluate credit transfer and RPL applications, apply academic standards, and document assessment decisions.",
+          tbd: true,
+          icon: `<svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`
+        },
+        {
+          name: "Faculty Coordinator",
+          slug: "faculty-coordinator",
+          desc: "Coordinate faculty-level review of credit transfer requests and ensure academic equivalency standards are met.",
+          tbd: true,
+          icon: `<svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>`
+        }
+      ]
+    };
+
+    document.documentElement.style.setProperty('--hub-color', HUB.color);
+    renderHeader({ backHref: '../../index.html', backLabel: 'App Hub' });
+    renderBreadcrumb([
+      { label: 'App Hub', href: '../../index.html' },
+      { label: HUB.name }
+    ]);
+
+    document.getElementById('hubHero').style.setProperty('--hub-color', HUB.color);
+    document.getElementById('hubHero').innerHTML = `
+      <div class="hub-hero-badge">${esc(HUB.name)}</div>
+      <h2>${esc(HUB.name)}</h2>
+      <p>${esc(HUB.desc)}</p>`;
+
+    const grid = document.getElementById('personaGrid');
+    HUB.personas.forEach(p => {
+      const card = document.createElement('a');
+      card.className = 'persona-card';
+      card.href = `${p.slug}/`;
+      card.style.setProperty('--hub-color', HUB.color);
+      card.style.setProperty('--pastel-bg', hexToRgba(HUB.pastel, 0.45));
+      card.innerHTML = `
+        <div class="persona-band">${p.icon}</div>
+        <div class="persona-body">
+          <div class="persona-name">${esc(p.name)}</div>
+          <div class="persona-desc">${esc(p.desc)}</div>
+          <div class="persona-footer">
+            ${p.tbd ? '<span class="tbd-badge">TBD</span>' : '<span></span>'}
+            <div class="persona-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>

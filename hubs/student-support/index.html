@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Support &amp; Knowledge Hub — Evantix</title>
+  <link rel="stylesheet" href="../../assets/css/shared.css" />
+</head>
+<body>
+  <div id="site-header"></div>
+  <div id="breadcrumb"></div>
+
+  <main class="page-main">
+    <div class="hub-hero" id="hubHero"></div>
+    <div class="section-label">Select a Persona to begin the walkthrough</div>
+    <div class="persona-grid" id="personaGrid"></div>
+  </main>
+
+  <script src="../../assets/js/shared.js"></script>
+  <script>
+    const HUB = {
+      name: "Student Support & Knowledge Hub",
+      slug: "student-support",
+      color: "#6B3A9E",
+      pastel: "#D5C0F0",
+      desc: "Centralise student support services, case management, and institutional knowledge resources.",
+      comingSoon: true,
+      personas: [
+        {
+          name: "Student",
+          slug: "student",
+          desc: "Access support services, raise cases, and find answers through the self-service knowledge base.",
+          tbd: true,
+          icon: `<svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3.33 2 8.67 2 12 0v-5"/></svg>`
+        },
+        {
+          name: "Support Advisor",
+          slug: "support-advisor",
+          desc: "Manage student support cases, coordinate referrals, and maintain accurate case records across services.",
+          tbd: true,
+          icon: `<svg viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>`
+        },
+        {
+          name: "Knowledge Manager",
+          slug: "knowledge-manager",
+          desc: "Create and maintain knowledge base content, monitor article effectiveness, and manage information workflows.",
+          tbd: true,
+          icon: `<svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M9 7h6M9 11h4"/></svg>`
+        }
+      ]
+    };
+
+    document.documentElement.style.setProperty('--hub-color', HUB.color);
+    renderHeader({ backHref: '../../index.html', backLabel: 'App Hub' });
+    renderBreadcrumb([
+      { label: 'App Hub', href: '../../index.html' },
+      { label: HUB.name }
+    ]);
+
+    document.getElementById('hubHero').style.setProperty('--hub-color', HUB.color);
+    document.getElementById('hubHero').innerHTML = `
+      <div class="hub-hero-badge">${esc(HUB.name)}</div>
+      <div class="coming-soon-notice">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Content coming soon — reach out to learn more
+      </div>
+      <h2>${esc(HUB.name)}</h2>
+      <p>${esc(HUB.desc)}</p>`;
+
+    const grid = document.getElementById('personaGrid');
+    HUB.personas.forEach(p => {
+      const card = document.createElement('a');
+      card.className = 'persona-card';
+      card.href = `${p.slug}/`;
+      card.style.setProperty('--hub-color', HUB.color);
+      card.style.setProperty('--pastel-bg', hexToRgba(HUB.pastel, 0.45));
+      card.innerHTML = `
+        <div class="persona-band">${p.icon}</div>
+        <div class="persona-body">
+          <div class="persona-name">${esc(p.name)}</div>
+          <div class="persona-desc">${esc(p.desc)}</div>
+          <div class="persona-footer">
+            <span class="tbd-badge">TBD</span>
+            <div class="persona-arrow"><svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>
