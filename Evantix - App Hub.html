@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Evantix - App Hub</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F295E'/%3E%3Cpath d='M16 7L5 13l11 6 11-6z' fill='%232FA6A4'/%3E%3Cpath d='M9 16.5v5.5c0 1.66 3.13 3 7 3s7-1.34 7-3V16.5' stroke='%232FA6A4' stroke-width='1.8' stroke-linecap='round' fill='none'/%3E%3Cpath d='M27 13v5' stroke='white' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #F0F0F0;
+    color: #111827;
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: #0F295E;
+    padding: 0 12px;
+    box-shadow: 0px 5px 10px rgba(17,24,39,0.5);
+  }
+
+  .header-titles {
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 5px 32px 10px;
+    text-align: center;
+  }
+
+  .header-titles h1 {
+    font-size: 30px;
+    font-weight: 400;
+    color: #ffffff;
+    letter-spacing: -0.3px;
+  }
+
+  .header-titles h1 span {
+    color: #2FA6A4;
+  }
+
+  .header-titles p {
+    font-size: 20px;
+    color:#96DCF8;
+    margin-top: 4px;
+  }
+
+  /* ── Main content ── */
+  .main {
+    max-width: 1800px;
+    margin: 36px auto;
+    padding: 0 32px 30px;
+  }
+
+  .section-label {
+    font-size: 17px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: rgba(17,24,39,0.45);
+    margin-bottom: 16px;
+  }
+
+  /* ── Grid ── */
+  .hub-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .hub-grid-last {
+    display: flex;
+    justify-content: center;
+    margin-top: 0;
+  }
+
+  .hub-grid-last .hub-card {
+    width: calc(33.333% - 14px);
+    max-width: 300px;
+  }
+
+  /* ── Card ── */
+  .hub-card {
+    background: #fff;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: default;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    display: flex;
+    flex-direction: column;
+    outline: none;
+    box-shadow: 0 4px 12px rgba(17,24,39,0.10), 0 1px 4px rgba(17,24,39,0.06);
+    min-height: 297px;
+  }
+
+  .hub-card--clickable {
+    cursor: pointer;
+  }
+
+  .hub-card:not(.hub-card--clickable) {
+    background: #F0F0F0;
+  }
+
+  .hub-card--clickable:hover,
+  .hub-card--clickable:focus {
+    transform: translateY(-3px);
+    border-color: var(--card-color, #2FA6A4);
+    box-shadow: 0 8px 24px rgba(var(--card-rgb, 47,166,164),0.14), 0 2px 8px rgba(17,24,39,0.08);
+  }
+
+  .hub-card--clickable:focus {
+    box-shadow: 0 0 0 3px rgba(var(--card-rgb, 47,166,164),0.28), 0 8px 24px rgba(var(--card-rgb, 47,166,164),0.12);
+  }
+
+  /* Card header band */
+  .card-band {
+    height: 99px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .card-band svg {
+    width: 48px;
+    height: 48px;
+    fill: none;
+    stroke: var(--icon-color);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Card body */
+  .card-body {
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .card-name {
+    font-size: 23px;
+    font-weight: 450;
+    color: #323742;
+    line-height: 1.3;
+  }
+
+  .card-desc {
+    font-size: 17px;
+    color: rgba(17,24,39,0.6);
+    margin-top: 6px;
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .card-publisher {
+    font-size: 17px;
+    color: rgba(17,24,39,0.42);
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .created-by-label {
+    font-size: 13px;
+    color: rgba(17,24,39,0.38);
+    white-space: nowrap;
+    margin-right: 2px;
+  }
+
+  .publisher-logo {
+    height: 22px;
+    object-fit: contain;
+    display: block;
+  }
+
+  .publisher-logo--kc {
+    height: 17px;
+  }
+
+  .card-badge {
+    background: #111827;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
+    padding: 2px 7px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .hub-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .hub-grid { grid-template-columns: repeat(2, 1fr); }
+    .hub-grid-last .hub-card { width: 100%; max-width: 100%; }
+    .main { padding: 0 20px 48px; }
+  }
+
+  @media (max-width: 480px) {
+    .hub-grid { grid-template-columns: 1fr; }
+    .site-header { padding: 0 20px; }
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    border-top: 1px solid #E2E8F0;
+    background: #fff;
+    padding: 20px 32px;
+    box-shadow: 0 2px 10px rgba(17,24,39,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  .site-footer .created-by {
+    font-size: 17px;
+    color: rgba(30, 47, 84, 0.644);
+    white-space: nowrap;
+  }
+
+  .footer-divider {
+    width: 1px;
+    height: 24px;
+    background: #E2E8F0;
+    flex-shrink: 0;
+  }
+
+  .site-footer img {
+    height: 39px;
+    object-fit: contain;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-titles">
+    <h1>Evantix</h1>
+    <p>Unified Student Intelligence</p>
+  </div>
+</header>
+
+<main class="main">
+  <div class="section-label">Published Apps (8)</div>
+
+  <div class="hub-grid" id="gridTop">
+    <!-- Cards rendered here -->
+  </div>
+</main>
+
+<script>
+  const HUBS = [
+    {
+      name: "Nurture Hub",
+      color: "#B03030",
+      pastel: "#F5B8B3",
+      desc: "Manage prospective student enquiries and lead nurturing campaigns to grow enrolment pipelines",
+      icon: `<svg viewBox="0 0 24 24"><path d="M12 22c0-6-6-8-6-13a6 6 0 0 1 12 0c0 5-6 7-6 13z"/><path d="M12 9v4"/><path d="M9.5 12.5s.5 2 2.5 2 2.5-2 2.5-2"/></svg>`
+    },
+    {
+      name: "Events Hub",
+      color: "#B05520",
+      pastel: "#F8C8A0",
+      desc: "Plan, promote, and manage open days, campus tours, and recruitment events end-to-end",
+      icon: `<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>`
+    },
+    {
+      name: "Enquiry Hub",
+      color: "#A08015",
+      pastel: "#F5E095",
+      desc: "Capture, triage, and respond to inbound student enquiries across all channels",
+      icon: `<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h8M8 14h5"/></svg>`
+    },
+    {
+      name: "Applications & Admissions Hub",
+      url: "https://scms-kk-dev.crm6.dynamics.com/main.aspx?appid=d0c26020-c72c-f111-88b5-002248963be6",
+      color: "#5A7815",
+      pastel: "#C8E095",
+      desc: "Review applications, manage offers, and track admissions decisions end-to-end",
+      icon: `<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><polyline points="9 15 11 17 15 13"/></svg>`
+    },
+    {
+      name: "Scholarship Hub",
+      url: "https://scms-kk-dev.crm6.dynamics.com/main.aspx?appid=97a38433-186c-f011-b4cc-002248964b31",
+      color: "#1A6644",
+      pastel: "#AADDC5",
+      desc: "Administer scholarship applications, assessments, and award management",
+      icon: `<svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/><circle cx="19" cy="6" r="1.5" fill="rgba(26,102,68,0.5)" stroke="none"/><path d="M17 4.5l2 1.5 2-1.5" stroke-width="1.4"/></svg>`
+    },
+    {
+      name: "Credit Transfer (RPL) Hub",
+      url: "https://acm-kk-dev.crm6.dynamics.com/main.aspx?appid=93601569-cb8e-45de-876b-98a5ffea2492",
+      color: "#1F7F7D",
+      pastel: "#B0E0DF",
+      desc: "Process credit recognition and advanced standing requests for incoming students",
+      icon: `<svg viewBox="0 0 24 24"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>`
+    },
+    {
+      name: "Government Support Hub",
+      url: "https://cpp-kk-dev.crm6.dynamics.com/main.aspx?appid=f5a03102-35e8-ef11-9341-00224811d458",
+      color: "#2B5F9E",
+      pastel: "#C5DDF5",
+      desc: "Manage government funding, compliance reporting, and student support scheme obligations",
+      icon: `<svg viewBox="0 0 24 24"><path d="M3 21h18M3 10h18M5 6l7-3 7 3"/><path d="M5 10v11M19 10v11M9 10v11M15 10v11"/></svg>`
+    },
+    {
+      name: "Student Support & Knowledge Hub",
+      color: "#6B3A9E",
+      pastel: "#D5C0F0",
+      desc: "Centralise student support services, case management, and institutional knowledge resources",
+      icon: `<svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M9 7h6M9 11h4"/></svg>`
+    },
+  ];
+
+  function hexToRgb(hex) {
+    const r = parseInt(hex.slice(1,3),16);
+    const g = parseInt(hex.slice(3,5),16);
+    const b = parseInt(hex.slice(5,7),16);
+    return `${r},${g},${b}`;
+  }
+
+  function esc(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function makeCard(hub) {
+    const card = document.createElement('div');
+    card.className = hub.url ? 'hub-card hub-card--clickable' : 'hub-card';
+    card.style.setProperty('--card-color', hub.color);
+    card.style.setProperty('--card-rgb', hexToRgb(hub.color));
+    if (hub.url) {
+      card.setAttribute('tabindex', '0');
+      card.setAttribute('role', 'button');
+      card.setAttribute('aria-label', esc(hub.name));
+    }
+    card.innerHTML = `
+      <div class="card-band" style="background:linear-gradient(rgba(${hexToRgb(hub.pastel)},0.82),rgba(${hexToRgb(hub.pastel)},0.82)),url('https://images.unsplash.com/photo-1519452575417-564c1401ecc0?q=80&w=1200&auto=format&fit=crop') center/cover;--icon-color:${esc(hub.color)}">
+        ${hub.icon}
+      </div>
+      <div class="card-body">
+        <div class="card-name">${esc(hub.name)}</div>
+        <div class="card-desc">${esc(hub.desc)}</div>
+        <div class="card-footer">
+        </div>
+      </div>
+    `;
+    if (hub.url) {
+      card.addEventListener('click', () => window.open(hub.url, '_blank', 'noopener,noreferrer'));
+    }
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); card.click(); }
+    });
+    return card;
+  }
+
+  const gridTop = document.getElementById('gridTop');
+
+  HUBS.forEach(h => gridTop.appendChild(makeCard(h)));
+</script>
+
+<!--
+<footer class="site-footer">
+  <span class="created-by">Created by</span>
+  <img
+    src="https://images.squarespace-cdn.com/content/v1/697a873a313d78431864c69f/df0d74a2-4bd9-4c41-a37b-b1349abe9cb7/Bayshann-Full-Logo-Blue-Transparent.png.png"
+    alt="Bayshann"
+  />
+  <div class="footer-divider"></div>
+  <img
+    src="https://kahilconsulting.com/wp-content/uploads/2025/11/cropped-Kahil-Consulting-Logo2.png"
+    alt="Kahil Consulting" style="height: 30px;"
+  />
+</footer>
+-->
+
+</body>
+</html>
