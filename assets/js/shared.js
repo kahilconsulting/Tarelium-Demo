@@ -161,9 +161,6 @@
         <img id="lightboxImg" src="" alt="">
       </div>`;
 
-    document.getElementById('btnPrev').addEventListener('click', () => goStep(-1));
-    document.getElementById('btnNext').addEventListener('click', () => goStep(1));
-
     document.addEventListener('keydown', function (e) {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); goStep(1); }
@@ -220,6 +217,7 @@
       const btnPrev = document.getElementById('btnPrev');
       const btnNext = document.getElementById('btnNext');
       btnPrev.disabled = current === 0;
+      btnPrev.onclick = function () { goStep(-1); };
       btnNext.disabled = false;
       btnNext.style.display = '';
 
