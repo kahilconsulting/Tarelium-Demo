@@ -25,7 +25,7 @@
   }
   window.hexToRgba = hexToRgba;
 
-  const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F295E'/%3E%3Cpath d='M16 7L5 13l11 6 11-6z' fill='%232FA6A4'/%3E%3Cpath d='M9 16.5v5.5c0 1.66 3.13 3 7 3s7-1.34 7-3V16.5' stroke='%232FA6A4' stroke-width='1.8' stroke-linecap='round' fill='none'/%3E%3Cpath d='M27 13v5' stroke='white' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E";
+  const FAVICON = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23AAAAAA'/%3E%3Cpath d='M16 7L5 13l11 6 11-6z' fill='%23834EAD'/%3E%3Cpath d='M9 16.5v5.5c0 1.66 3.13 3 7 3s7-1.34 7-3V16.5' stroke='%23834EAD' stroke-width='1.8' stroke-linecap='round' fill='none'/%3E%3Cpath d='M27 13v5' stroke='white' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E";
 
   // Derive the assets base URL from the shared.js script tag (always at {base}/assets/js/shared.js)
   const _scriptSrc = (document.currentScript || document.querySelector('script[src*="shared.js"]') || {}).src || '';

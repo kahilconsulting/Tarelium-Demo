@@ -88,6 +88,7 @@ body {
 .header-created-by img {
   height: 22px;
   width: auto;
+  filter: grayscale(100%);
   display: block;
 }
 
